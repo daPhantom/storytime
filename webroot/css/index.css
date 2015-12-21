@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#messages {
+    width: 700px;
+    background-color: #000;
+    color: #fff;
+}
+
+.name {
+    color: #becece;
+}
+
+.text {
+    color: #FFF;
+}

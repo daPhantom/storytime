@@ -1,13 +1,16 @@
 <html>
 <head>
     <title>StoryTime</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="js/lib/jquery-2.1.4.min.js"></script>
     <script src="js/engine.js"></script>
 </head>
 <body>
+    <div id="messages"></div>
     <script type="text/javascript">
         var engine = new Engine();
-        engine.sayHello();
+        engine.init($('#messages'));
+        engine.loop();
     </script>
 </body>
 </html>
