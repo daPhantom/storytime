@@ -7,6 +7,7 @@ function Engine() {
     this.fps = 8;
     this.loopInterval;
     this.lastRun = microtime(true) * 1000;
+    this.engineVariable;
     this.outputElement;
 
     //StoryTime Specific
@@ -49,7 +50,62 @@ Engine.prototype = {
                         {
                             name: 'Dum My',
                             text: 'I am scared!',
+                            decissions: [
+                                {
+                                    text: 'Who are you?',
+                                    nextIndex: 1,
+                                },
+                                {
+                                    text: 'What happened?',
+                                    nextIndex: 2,
+                                }
+                            ],
                             timeout: 0,
+                        },
+                    ],
+                    nextIndex: false
+                },
+                {
+                    messages: [
+                        {
+                            name: 'Dum My',
+                            text: 'Whoa you can really read me? Cool...',
+                            timeout: 3000,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: 'Of course. Forgot about my manners.',
+                            timeout: 3000,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: 'My name is Dum My!',
+                            timeout: 0,
+                        },
+                    ],
+                    nextIndex: false
+                },
+                {
+                    messages: [
+                        {
+                            name: 'Dum My',
+                            text: 'Whoa you can really read me? Cool...',
+                            timeout: 3000,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: 'I don\'t really know what happened.',
+                            timeout: 3000,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: 'There was a huge explosion and...',
+                            timeout: 3000,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: '... I can\'t remember!',
+                            timeout: 3000,
                         },
                     ],
                     nextIndex: false
@@ -58,12 +114,13 @@ Engine.prototype = {
         }
     },
 
-    init: function(element) {
+    init: function(variable, element) {
         console.log('init');
 
         this.loadStoryData('dummy');
         this.partIndex = this.storyData.startIndex;
         this.messageIndex = 0;
+        this.engineVariable = variable;
         this.outputElement = element;
     },
 
@@ -74,6 +131,20 @@ Engine.prototype = {
         output += '<span class="name">' + message.name + '</span>';
         output += ':&nbsp;';
         output += '<span class="text">' + message.text + '</span>';
+        output += '</div>';
+
+        this.outputElement.append(output);
+    },
+
+    outputDecission: function(message) {
+        console.log('outputDecission');
+
+        var output = '<div class="decission">';
+
+        message.decissions.forEach(function(decission) {
+            output += '<button type="button" onclick="' + this.engineVariable + '.decide(' + decission.nextIndex + ')" class="btn btn-lg btn-warning">' + decission.text + '</button>';
+        }, this);
+
         output += '</div>';
 
         this.outputElement.append(output);
@@ -117,6 +188,11 @@ Engine.prototype = {
         }
     },
 
+    decide: function(index) {
+        this.partIndex = index;
+        this.messageIndex = 0;
+    },
+
     nextMessage: function() {
         var message = false;
 
@@ -146,6 +222,10 @@ Engine.prototype = {
         if(this.queuedMessages.length > 0) {
             this.queuedMessages.forEach(function(message) {
                 this.outputMessage(message);
+
+                if(typeof message.decissions !== 'undefined') {
+                    this.outputDecission(message);
+                }
             }, this);
 
             this.queuedMessages = [];
