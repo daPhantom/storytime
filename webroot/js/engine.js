@@ -1,18 +1,25 @@
 "use strict";
 
 function Engine() {
-    this.fps = 30;
-    this.loopInterval;
-    this.index = -1;
-    this.timeout;
-    this.outputElement;
-    this.queuedMessages = [];
+    console.log('Engine');
 
-    this.loadStoryData('dummy');
+    //Basic Engine Settings
+    this.fps = 8;
+    this.loopInterval;
+    this.lastRun = microtime(true) * 1000;
+    this.outputElement;
+
+    //StoryTime Specific
+    this.partIndex = -1;
+    this.messageIndex = -1;
+    this.timeout;
+    this.queuedMessages = [];
 }
 
 Engine.prototype = {
     loadStoryData: function(story) {
+        console.log('loadStoryData');
+
         var url = 'http://fotoosman.de/storytime/data/'
 
         // $.getJSON(url + story + '.json', function(response) {
@@ -27,12 +34,22 @@ Engine.prototype = {
                         {
                             name: 'Dum My',
                             text: 'Hello?!',
-                            timeout: 1000,
+                            timeout: 1500,
                         },
                         {
                             name: 'Dum My',
                             text: 'Anyone?!',
-                            timeout: 500,
+                            timeout: 4000,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: 'Can you read me?!',
+                            timeout: 3500,
+                        },
+                        {
+                            name: 'Dum My',
+                            text: 'I am scared!',
+                            timeout: 0,
                         },
                     ],
                     nextIndex: false
@@ -42,12 +59,17 @@ Engine.prototype = {
     },
 
     init: function(element) {
+        console.log('init');
+
         this.loadStoryData('dummy');
-        this.index = this.storyData.startIndex;
+        this.partIndex = this.storyData.startIndex;
+        this.messageIndex = 0;
         this.outputElement = element;
     },
 
     outputMessage: function(message) {
+        console.log('outputMessage');
+
         var output = '<div class="message">';
         output += '<span class="name">' + message.name + '</span>';
         output += ':&nbsp;';
@@ -58,27 +80,75 @@ Engine.prototype = {
     },
 
     loop: function() {
+        console.log('loop');
+
         this.loopInterval = setInterval($.proxy(function() {
             this.run();
         }, this), 1000 / this.fps);
     },
 
     run: function() {
-        console.log(this.dump());
+        var deltaTime = (microtime(true) * 1000) - this.lastRun;
+
+        this.update(deltaTime);
+        this.draw();
+
+        this.lastRun = microtime(true) * 1000;
     },
 
     stop: function() {
+        console.log('stop');
+
         clearInterval(this.loopInterval);
     },
 
-    dump: function() {
-        this.storyData.parts[this.index].messages.forEach(function(message) {
-            this.outputMessage(message);
-        }, this);
+    update: function(deltaTime) {
+        if(this.timeout > 0) {
+            this.timeout -= deltaTime;
+        }
 
+        if(this.timeout <= 0 || !this.timeout) {
+            var message = this.nextMessage();
+
+            if(message) {
+                this.timeout = message.timeout;
+                this.queuedMessages.push(message);
+            }
+        }
     },
 
-    sayHello: function() {
-        alert('Hello!');
-    }
+    nextMessage: function() {
+        var message = false;
+
+        if(this.partIndex !== false) {
+            message = this.storyData.parts[this.partIndex].messages[this.messageIndex];
+
+            if(typeof message === 'undefined') {
+                this.messageIndex = 0;
+                this.partIndex = this.storyData.parts[this.partIndex].nextIndex;
+
+                if(this.partIndex) {
+                    message = this.storyData.parts[this.partIndex].messages[this.messageIndex];
+                }
+            }
+        }
+
+        if(message) {
+            this.messageIndex++;
+        }
+
+        return message;
+    },
+
+    draw: function() {
+        // console.log('draw');
+
+        if(this.queuedMessages.length > 0) {
+            this.queuedMessages.forEach(function(message) {
+                this.outputMessage(message);
+            }, this);
+
+            this.queuedMessages = [];
+        }
+    },
 };
