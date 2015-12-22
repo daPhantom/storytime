@@ -11,6 +11,7 @@ function Engine() {
     this.outputElement;
 
     //StoryTime Specific
+    this.storyData;
     this.partIndex = -1;
     this.messageIndex = -1;
     this.timeout;
@@ -26,9 +27,12 @@ Engine.prototype = {
 
         console.log(url + story + '.json');
 
-        $.getJSON(url + story + '.json', function(response) {
-            console.log(response);
-            this.storyData = response;
+        $.ajax({
+            url: 'js/data/dummy.json',
+            dataType: "json",
+            success: function(response) {
+                this.storyData = response;
+            }
         });
     },
 
