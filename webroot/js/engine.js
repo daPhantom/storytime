@@ -79,6 +79,12 @@ Engine.prototype = {
                             "name": "Dum My",
                             "text": "My name is Dum My!",
                             "timeout": 0,
+                            "decissions": [
+                                {
+                                    "text": "That is a really odd name...",
+                                    "nextIndex": 3,
+                                }
+                            ]
                         },
                     ],
                     "nextIndex": false
@@ -108,7 +114,88 @@ Engine.prototype = {
                         },
                     ],
                     "nextIndex": false
-                }
+                },
+                {
+                    "timeout": 2000,
+                    "messages": [
+                        {
+                            "name": "Dum My",
+                            "text": "Ehm... thanks?",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "Random Random Random",
+                            "timeout": 3000,
+                        },
+                    ],
+                    "nextIndex": false
+                },
             ]
         }
     },
@@ -133,20 +220,24 @@ Engine.prototype = {
         output += '</div>';
 
         this.outputElement.append(output);
+        this.outputElement.animate({"scrollTop": this.outputElement[0].scrollHeight}, "fast");
     },
 
     outputDecission: function(message) {
         console.log('outputDecission');
 
-        var output = '<div class="decission">';
+        var width = this.outputElement.width() / message.decissions.length;
+
+        var output = '<div class="decissions">';
 
         message.decissions.forEach(function(decission) {
-            output += '<button type="button" onclick="' + this.engineVariable + '.decide(' + decission.nextIndex + ')" class="btn btn-lg btn-warning">' + decission.text + '</button>';
+            output += '<button style="width: ' + width + 'px;" type="button" onclick="' + this.engineVariable + '.decide(' + decission.nextIndex + ')" class="btn btn-lg btn-warning">' + decission.text + '</button>';
         }, this);
 
         output += '</div>';
 
         this.outputElement.append(output);
+        this.outputElement.animate({"scrollTop": this.outputElement[0].scrollHeight}, "fast");
     },
 
     loop: function() {
