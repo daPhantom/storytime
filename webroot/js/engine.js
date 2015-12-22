@@ -22,7 +22,7 @@ Engine.prototype = {
     loadStoryData: function(story) {
         console.log('loadStoryData');
 
-        var url = 'http://daphantom.github.io/storytime/webroot/js/data/'
+        var url = 'http://daphantom.github.io/storytime/webroot/js/data/';
 
         $.getJSON(url + story + '.json', function(response) {
             this.storyData =  response;
