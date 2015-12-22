@@ -33,22 +33,22 @@ Engine.prototype = {
                 {
                     messages: [
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'Hello?!',
                             timeout: 1500,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'Anyone?!',
                             timeout: 4000,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'Can you read me?!',
                             timeout: 3500,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown'
                             text: 'I am scared!',
                             decissions: [
                                 {
@@ -68,12 +68,12 @@ Engine.prototype = {
                 {
                     messages: [
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'Whoa you can really read me? Cool...',
                             timeout: 3000,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'Of course. Forgot about my manners.',
                             timeout: 3000,
                         },
@@ -88,22 +88,22 @@ Engine.prototype = {
                 {
                     messages: [
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'Whoa you can really read me? Cool...',
                             timeout: 3000,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'I don\'t really know what happened.',
                             timeout: 3000,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: 'There was a huge explosion and...',
                             timeout: 3000,
                         },
                         {
-                            name: 'Dum My',
+                            name: 'Unknown',
                             text: '... I can\'t remember!',
                             timeout: 3000,
                         },
