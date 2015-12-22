@@ -48,7 +48,7 @@ Engine.prototype = {
                             timeout: 3500,
                         },
                         {
-                            name: 'Unknown'
+                            name: 'Unknown',
                             text: 'I am scared!',
                             decissions: [
                                 {
