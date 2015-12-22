@@ -24,8 +24,11 @@ Engine.prototype = {
 
         var url = 'http://daphantom.github.io/storytime/webroot/js/data/';
 
+        console.log(url + story + '.json');
+
         $.getJSON(url + story + '.json', function(response) {
-            this.storyData =  response;
+            console.log(response);
+            this.storyData = response;
         });
     },
 
