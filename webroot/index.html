@@ -1,8 +1,12 @@
 <html>
 <head>
     <title>StoryTime</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/index.css">
+
     <script src="js/lib/jquery-2.1.4.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+
     <script src="js/utils.js"></script>
     <script src="js/engine.js"></script>
 </head>
@@ -10,7 +14,7 @@
     <div id="messages"></div>
     <script type="text/javascript">
         var engine = new Engine();
-        engine.init($('#messages'));
+        engine.init('engine', $('#messages'));
         engine.loop();
     </script>
 </body>
