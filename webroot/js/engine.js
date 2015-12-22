@@ -23,16 +23,13 @@ Engine.prototype = {
     loadStoryData: function(story) {
         console.log('loadStoryData');
 
-        var url = 'http://daphantom.github.io/storytime/webroot/js/data/';
-
-        console.log(url + story + '.json');
+        var url = 'http://daphantom.github.io/storytime/webroot/js/data/' + story + '.json';
 
         $.ajax({
-            url: 'js/data/dummy.json',
-            dataType: "json",
-            success: function(response) {
-                this.storyData = response;
-            }
+            url: url,
+            context: this
+        }).done(function(data) {
+            this.storyData = data;
         });
     },
 
