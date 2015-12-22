@@ -23,14 +23,94 @@ Engine.prototype = {
     loadStoryData: function(story) {
         console.log('loadStoryData');
 
-        var url = 'http://daphantom.github.io/storytime/webroot/js/data/' + story + '.json';
-
-        $.ajax({
-            url: url,
-            context: this
-        }).done(function(data) {
-            this.storyData = data;
-        });
+        this.storyData = {
+            "startIndex": 0,
+            "parts": [
+                {
+                    "timeout": 0,
+                    "messages": [
+                        {
+                            "name": "Unknown",
+                            "text": "Hello?!",
+                            "timeout": 1500,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "Anyone?!",
+                            "timeout": 4000,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "Can you read me?!",
+                            "timeout": 3500,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "I am scared!",
+                            "decissions": [
+                                {
+                                    "text": "Who are you?",
+                                    "nextIndex": 1,
+                                },
+                                {
+                                    "text": "What happened?",
+                                    "nextIndex": 2,
+                                }
+                            ],
+                            "timeout": 0,
+                        },
+                    ],
+                    "nextIndex": false
+                },
+                {
+                    "timeout": 2000,
+                    "messages": [
+                        {
+                            "name": "Unknown",
+                            "text": "Whoa you can really read me? Cool...",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "Of course. Forgot about my manners.",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Dum My",
+                            "text": "My name is Dum My!",
+                            "timeout": 0,
+                        },
+                    ],
+                    "nextIndex": false
+                },
+                {
+                    "timeout": 2000,
+                    "messages": [
+                        {
+                            "name": "Unknown",
+                            "text": "Whoa you can really read me? Cool...",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "I don\"t really know what happened.",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "There was a huge explosion and...",
+                            "timeout": 3000,
+                        },
+                        {
+                            "name": "Unknown",
+                            "text": "... I can\"t remember!",
+                            "timeout": 3000,
+                        },
+                    ],
+                    "nextIndex": false
+                }
+            ]
+        }
     },
 
     init: function(variable, element) {
@@ -119,6 +199,7 @@ Engine.prototype = {
                 this.partIndex = index;
                 this.messageIndex = 0;
                 this.possibleDecissions = [];
+                this.timeout = this.currentPart().timeout;
             }
         }
     },
@@ -127,14 +208,14 @@ Engine.prototype = {
         var message = false;
 
         if(this.partIndex !== false) {
-            message = this.storyData.parts[this.partIndex].messages[this.messageIndex];
+            message = this.currentPart().messages[this.messageIndex];
 
             if(typeof message === 'undefined') {
                 this.messageIndex = 0;
-                this.partIndex = this.storyData.parts[this.partIndex].nextIndex;
+                this.partIndex = this.currentPart().nextIndex;
 
                 if(this.partIndex) {
-                    message = this.storyData.parts[this.partIndex].messages[this.messageIndex];
+                    message = this.currentPart().messages[this.messageIndex];
                 }
             }
         }
@@ -144,6 +225,10 @@ Engine.prototype = {
         }
 
         return message;
+    },
+
+    currentPart: function() {
+        return this.storyData.parts[this.partIndex];
     },
 
     draw: function() {
