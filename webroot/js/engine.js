@@ -15,103 +15,18 @@ function Engine() {
     this.messageIndex = -1;
     this.timeout;
     this.queuedMessages = [];
+    this.possibleDecissions = [];
 }
 
 Engine.prototype = {
     loadStoryData: function(story) {
         console.log('loadStoryData');
 
-        var url = 'http://fotoosman.de/storytime/data/'
+        var url = 'http://daphantom.github.io/storytime/webroot/js/data/'
 
-        // $.getJSON(url + story + '.json', function(response) {
-        //     this.storyData =  response;
-        // });
-
-        this.storyData = {
-            startIndex: 0,
-            parts: [
-                {
-                    messages: [
-                        {
-                            name: 'Unknown',
-                            text: 'Hello?!',
-                            timeout: 1500,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: 'Anyone?!',
-                            timeout: 4000,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: 'Can you read me?!',
-                            timeout: 3500,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: 'I am scared!',
-                            decissions: [
-                                {
-                                    text: 'Who are you?',
-                                    nextIndex: 1,
-                                },
-                                {
-                                    text: 'What happened?',
-                                    nextIndex: 2,
-                                }
-                            ],
-                            timeout: 0,
-                        },
-                    ],
-                    nextIndex: false
-                },
-                {
-                    messages: [
-                        {
-                            name: 'Unknown',
-                            text: 'Whoa you can really read me? Cool...',
-                            timeout: 3000,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: 'Of course. Forgot about my manners.',
-                            timeout: 3000,
-                        },
-                        {
-                            name: 'Dum My',
-                            text: 'My name is Dum My!',
-                            timeout: 0,
-                        },
-                    ],
-                    nextIndex: false
-                },
-                {
-                    messages: [
-                        {
-                            name: 'Unknown',
-                            text: 'Whoa you can really read me? Cool...',
-                            timeout: 3000,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: 'I don\'t really know what happened.',
-                            timeout: 3000,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: 'There was a huge explosion and...',
-                            timeout: 3000,
-                        },
-                        {
-                            name: 'Unknown',
-                            text: '... I can\'t remember!',
-                            timeout: 3000,
-                        },
-                    ],
-                    nextIndex: false
-                }
-            ]
-        }
+        $.getJSON(url + story + '.json', function(response) {
+            this.storyData =  response;
+        });
     },
 
     init: function(variable, element) {
@@ -182,6 +97,12 @@ Engine.prototype = {
             var message = this.nextMessage();
 
             if(message) {
+                if(typeof message.decissions !== 'undefined') {
+                    message.decissions.forEach(function(decission) {
+                        this.possibleDecissions.push(decission.nextIndex);
+                    }, this);
+                }
+
                 this.timeout = message.timeout;
                 this.queuedMessages.push(message);
             }
@@ -189,8 +110,13 @@ Engine.prototype = {
     },
 
     decide: function(index) {
-        this.partIndex = index;
-        this.messageIndex = 0;
+        if(index > 0) {
+            if(this.possibleDecissions.indexOf(index) !== -1) {
+                this.partIndex = index;
+                this.messageIndex = 0;
+                this.possibleDecissions = [];
+            }
+        }
     },
 
     nextMessage: function() {
