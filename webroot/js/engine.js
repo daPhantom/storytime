@@ -216,11 +216,16 @@ Engine.prototype = {
         var output = '<div class="message">';
         output += '<span class="name">' + message.name + '</span>';
         output += ':&nbsp;';
-        output += '<span class="text">' + message.text + '</span>';
+        output += '<span class="text"></span>';
         output += '</div>';
 
         this.outputElement.append(output);
         this.outputElement.animate({"scrollTop": this.outputElement[0].scrollHeight}, "fast");
+        this.outputElement.find('.text').last().typed({
+            strings: [message.text],
+            showCursor: false,
+            typeSpeed: 0
+        });
     },
 
     outputDecission: function(message) {
