@@ -15,6 +15,7 @@ function Engine() {
     this.messageIndex = -1;
     this.timeout;
     this.queuedMessages = [];
+    this.possibleDecissions = [];
 }
 
 Engine.prototype = {
@@ -182,6 +183,12 @@ Engine.prototype = {
             var message = this.nextMessage();
 
             if(message) {
+                if(typeof message.decissions !== 'undefined') {
+                    message.decissions.forEach(function(decission) {
+                        this.possibleDecissions.push(decission.nextIndex);
+                    }, this);
+                }
+
                 this.timeout = message.timeout;
                 this.queuedMessages.push(message);
             }
@@ -189,8 +196,13 @@ Engine.prototype = {
     },
 
     decide: function(index) {
-        this.partIndex = index;
-        this.messageIndex = 0;
+        if(index > 0) {
+            if(this.possibleDecissions.indexOf(index) !== -1) {
+                this.partIndex = index;
+                this.messageIndex = 0;
+                this.possibleDecissions = [];
+            }
+        }
     },
 
     nextMessage: function() {
