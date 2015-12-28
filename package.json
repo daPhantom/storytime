@@ -5,6 +5,7 @@
   "main": "public/js/index.html",
   "devDependencies": {},
   "dependencies": {
+    "package-script": "0.0.8",
     "pixi.js": "^3.0.8"
   },
   "repository": {
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/daPhantom/storytime#readme",
   "scripts": {
+    "install": "node installer.js",
     "build": "browserify src/main.js -o public/js/bundle.js",
     "watch": "watchify src/main.js -o public/js/bundle.js --debug --verbose"
   }
