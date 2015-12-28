@@ -2,7 +2,7 @@
   "name": "storytime",
   "description": "Head over to our [Storytime Github Page](http://daphantom.github.io/storytime/webroot/) to see it in action.",
   "version": "1.0.0",
-  "main": "node/client.js",
+  "main": "client.js",
   "devDependencies": {},
   "dependencies": {
     "package-script": "0.0.8",
@@ -20,7 +20,7 @@
   "homepage": "https://github.com/daPhantom/storytime#readme",
   "scripts": {
     "install": "node installer.js",
-    "build": "browserify node/client.js -o public/js/bundle.js --full-path=false",
-    "watch": "watchify node/client.js -o public/js/bundle.js --debug --verbose --full-path=false"
+    "build": "browserify client.js -o public/js/bundle.js --full-path=false",
+    "watch": "watchify client.js -o public/js/bundle.js --debug --verbose --full-path=false"
   }
 }
