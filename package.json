@@ -1,6 +1,24 @@
 {
+  "name": "storytime",
+  "description": "Head over to our [Storytime Github Page](http://daphantom.github.io/storytime/webroot/) to see it in action.",
+  "version": "1.0.0",
+  "main": "public/js/index.html",
+  "devDependencies": {},
+  "dependencies": {
+    "pixi.js": "^3.0.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daPhantom/storytime.git"
+  },
+  "author": "TwoPack",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daPhantom/storytime/issues"
+  },
+  "homepage": "https://github.com/daPhantom/storytime#readme",
   "scripts": {
-      "build": "browserify src/main.js -o public/js/bundle.js",
-      "watch": "watchify src/main.js -o public/js/bundle.js --debug --verbose"
+    "build": "browserify src/main.js -o public/js/bundle.js",
+    "watch": "watchify src/main.js -o public/js/bundle.js --debug --verbose"
   }
 }
