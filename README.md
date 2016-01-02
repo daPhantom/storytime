@@ -2,7 +2,7 @@
 
 Head over to our [Storytime Github Page](http://daphantom.github.io/storytime/webroot/) to see it in action.
 
-# How to build the client
+# How to build the server 
 
 Run `npm install` within the `server/` folder to install all required dependencies.
 Run `node server.js` from the `server/` folder and enjoy.
